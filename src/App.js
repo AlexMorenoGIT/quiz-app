@@ -6,82 +6,142 @@ import { Trophy, HelpCircle, ChevronRight } from 'lucide-react';
 const Quiz = () => {
   // Base de questions
   const questions = [
-    {
-      question: "ETCD est généralement déployé en tant que pod dans un cluster Kubernetes",
-      answer: false,
-      explanation: "ETCD est généralement déployé en tant que processus système directement sur les nœuds master/control-plane, pas comme un pod, pour garantir sa stabilité et sa disponibilité."
-    },
-    {
-      question: "Un Pod peut avoir plusieurs containers partageant le même espace de stockage",
-      answer: true,
-      explanation: "Les conteneurs dans un même Pod partagent le même espace de stockage et peuvent accéder aux mêmes volumes."
-    },
-    {
-      question: "Un Service de type NodePort expose toujours un port dans la plage 30000-32767",
-      answer: true,
-      explanation: "Kubernetes réserve cette plage de ports spécifique pour les Services NodePort."
-    },
-    {
-      question: "Un Pod peut avoir plusieurs ReplicaSets qui le contrôlent simultanément",
-      answer: false,
-      explanation: "Un Pod ne peut être contrôlé que par un seul ReplicaSet à la fois, grâce au système de labels et selectors."
-    },
-    {
-      question: "Un PersistentVolume peut être provisionné dynamiquement sans StorageClass",
-      answer: false,
-      explanation: "Le provisionnement dynamique nécessite une StorageClass qui définit le provisioner à utiliser."
-    },
-    {
-      question: "Les ConfigMaps peuvent stocker des données binaires",
-      answer: true,
-      explanation: "Les ConfigMaps peuvent stocker à la fois des données textuelles et binaires."
-    },
-    {
-      question: "Un Deployment peut automatiquement faire un rollback si un pod ne démarre pas",
-      answer: true,
-      explanation: "Les Deployments supportent le rollback automatique basé sur les conditions de santé des pods."
-    },
-    {
-      question: "Les Services peuvent faire du load balancing entre des pods dans différents namespaces",
-      answer: false,
-      explanation: "Par défaut, les Services ne peuvent faire du load balancing que vers des pods dans le même namespace."
-    },
-    {
-      question: "Un StatefulSet garantit toujours l'unicité des noms de pods",
-      answer: true,
-      explanation: "Les StatefulSets créent des pods avec des noms prévisibles et uniques, basés sur un index numérique."
-    },
-    {
-      question: "Les DaemonSets peuvent être limités à certains nœuds avec des nodeSelectors",
-      answer: true,
-      explanation: "Les DaemonSets peuvent utiliser nodeSelector et nodeAffinity pour cibler des nœuds spécifiques."
-    },
-    {
-      question: "Un Ingress peut router le trafic vers des Services dans différents namespaces",
-      answer: true,
-      explanation: "Un Ingress peut router le trafic vers des Services dans n'importe quel namespace du cluster."
-    },
-    {
-      question: "Les PersistentVolumeClaims peuvent demander plus d'espace après leur création",
-      answer: false,
-      explanation: "Les PVCs ne peuvent pas être redimensionnés après leur création, sauf si la StorageClass le permet explicitement."
-    },
-    {
-      question: "Les init containers d'un Pod s'exécutent en parallèle",
-      answer: false,
-      explanation: "Les init containers s'exécutent séquentiellement, chacun devant se terminer avec succès avant le suivant."
-    },
-    {
-      question: "Un HorizontalPodAutoscaler peut scaler basé sur des métriques personnalisées",
-      answer: true,
-      explanation: "HPA supporte les métriques personnalisées en plus des métriques standard comme CPU et mémoire."
-    },
-    {
-      question: "Les Secrets sont automatiquement chiffrés au repos dans ETCD",
-      answer: false,
-      explanation: "Par défaut, les Secrets sont encodés en base64 mais pas chiffrés. Le chiffrement doit être configuré explicitement."
-    }
-  ];
+  {
+    question: "Les Pods peuvent être créés directement sans être associés à un contrôleur.",
+    answer: true,
+    explanation: "Les Pods peuvent être créés manuellement sans contrôleur, mais ils ne seront pas gérés automatiquement en cas de panne."
+  },
+  {
+    question: "Un Pod peut contenir à la fois des conteneurs Linux et Windows.",
+    answer: false,
+    explanation: "Un Pod ne peut contenir que des conteneurs qui fonctionnent sur le même type de système d'exploitation (Linux ou Windows)."
+  },
+  {
+    question: "Kubernetes supporte les volumes persistants NFS pour les Pods.",
+    answer: true,
+    explanation: "Kubernetes prend en charge plusieurs types de volumes persistants, y compris NFS."
+  },
+  {
+    question: "Un Pod peut exécuter des conteneurs dans des namespaces réseau différents.",
+    answer: false,
+    explanation: "Tous les conteneurs dans un Pod partagent le même namespace réseau, ce qui signifie qu'ils peuvent communiquer entre eux."
+  },
+  {
+    question: "Les ReplicaSets peuvent être utilisés indépendamment des Deployments.",
+    answer: true,
+    explanation: "Les ReplicaSets peuvent être utilisés seuls, mais ils sont généralement gérés par un Deployment pour un déploiement plus souple."
+  },
+  {
+    question: "Un Pod peut avoir des labels pour être sélectionné par un Service.",
+    answer: true,
+    explanation: "Les labels sont utilisés pour faire correspondre les Pods aux Services, afin que le trafic puisse être dirigé vers eux."
+  },
+  {
+    question: "Les Pods peuvent être utilisés pour déployer des applications sans aucune ressource allouée.",
+    answer: false,
+    explanation: "Les Pods doivent toujours être configurés avec des ressources, comme des CPU et de la mémoire, pour garantir une gestion efficace."
+  },
+  {
+    question: "Un Pod avec un seul conteneur peut avoir une ressource de type VolumeMount.",
+    answer: true,
+    explanation: "Même un Pod avec un seul conteneur peut avoir des Volumes et des VolumeMounts pour stocker et accéder à des données."
+  },
+  {
+    question: "Un Namespace est un mécanisme permettant de partitionner un cluster Kubernetes.",
+    answer: true,
+    explanation: "Les Namespaces sont utilisés pour organiser et séparer les ressources dans un cluster Kubernetes."
+  },
+  {
+    question: "Les Pods peuvent être déployés sur des machines virtuelles dans un environnement hybride.",
+    answer: true,
+    explanation: "Les Pods peuvent être déployés sur des machines virtuelles dans des environnements multi-cloud ou hybrides."
+  },
+  {
+    question: "Les Secrets Kubernetes sont stockés en clair dans etcd.",
+    answer: false,
+    explanation: "Les Secrets sont par défaut encodés en base64, mais ils peuvent être chiffrés en repos si configuré explicitement."
+  },
+  {
+    question: "Les Services de type LoadBalancer créent automatiquement des instances de serveurs dans un cloud public.",
+    answer: true,
+    explanation: "Lorsque vous utilisez un Service LoadBalancer, Kubernetes crée automatiquement une instance dans le cloud public, si configuré."
+  },
+  {
+    question: "Les Deployments Kubernetes ne peuvent pas gérer les Pods avec des conteneurs dans un état d'erreur.",
+    answer: false,
+    explanation: "Les Deployments peuvent gérer les Pods en erreur en effectuant des redémarrages ou des rollbacks en fonction de la configuration."
+  },
+  {
+    question: "Il est possible d'utiliser un Pod pour déployer plusieurs services distincts.",
+    answer: true,
+    explanation: "Un Pod peut contenir plusieurs conteneurs qui fournissent des services distincts tout en partageant le même environnement réseau et de stockage."
+  },
+  {
+    question: "Les Volumes Kubernetes peuvent être attachés à plusieurs Pods en même temps.",
+    answer: true,
+    explanation: "Les Volumes persistants peuvent être partagés entre plusieurs Pods si le type de volume le permet."
+  },
+  {
+    question: "Les HPA peuvent ajuster le nombre de réplicas d'un Pod en fonction de la charge CPU uniquement.",
+    answer: false,
+    explanation: "Les HPA peuvent ajuster le nombre de réplicas en fonction de la CPU, de la mémoire, ou de métriques personnalisées."
+  },
+  {
+    question: "Kubernetes prend en charge le déploiement d'applications en conteneurs sans nécessiter de gestion des nœuds.",
+    answer: true,
+    explanation: "Kubernetes abstrait la gestion des nœuds et permet de se concentrer sur le déploiement des applications sans gérer directement les machines physiques."
+  },
+  {
+    question: "Un Pod de type DaemonSet s'exécute sur chaque nœud du cluster.",
+    answer: true,
+    explanation: "Les DaemonSets garantissent qu'une copie d'un Pod s'exécute sur chaque nœud ou sur les nœuds sélectionnés du cluster."
+  },
+  {
+    question: "Un Ingress permet de définir des règles de routage HTTP et HTTPS pour le trafic entrant.",
+    answer: true,
+    explanation: "L'Ingress permet de gérer le routage HTTP et HTTPS dans un cluster Kubernetes en fonction des règles définies."
+  },
+  {
+    question: "Les Pods peuvent être configurés pour redémarrer automatiquement en cas d'échec.",
+    answer: true,
+    explanation: "Kubernetes offre une politique de redémarrage pour les Pods, garantissant qu'ils sont redémarrés en cas de panne."
+  },
+  {
+    question: "Un StatefulSet assure une identification persistante des Pods, même après un redémarrage.",
+    answer: true,
+    explanation: "Le StatefulSet assure que les Pods ont des identifiants uniques et persistants, même après un redémarrage."
+  },
+  {
+    question: "Les ReplicaSets ne sont utilisés que pour les applications sans état.",
+    answer: false,
+    explanation: "Les ReplicaSets peuvent être utilisés pour gérer des applications à la fois sans état et avec état."
+  },
+  {
+    question: "Les ressources dans Kubernetes peuvent être configurées avec des quotas pour limiter l'utilisation des ressources.",
+    answer: true,
+    explanation: "Les quotas peuvent être appliqués dans un namespace pour limiter la quantité de ressources utilisées par les utilisateurs et les applications."
+  },
+  {
+    question: "Un Pod de type StaticPod est géré par le contrôleur kubelet plutôt que par Kubernetes.",
+    answer: true,
+    explanation: "Les StaticPods sont gérés directement par le kubelet sur chaque nœud sans nécessiter de contrôleur Kubernetes."
+  },
+  {
+    question: "Un ReplicaSet gère un ensemble de Pods et leur réplication, mais ne peut pas gérer les mises à jour.",
+    answer: true,
+    explanation: "Un ReplicaSet gère la réplication, mais c'est un Deployment qui gère les mises à jour de version des Pods."
+  },
+  {
+    question: "Les ConfigMaps peuvent stocker des informations sensibles comme des mots de passe.",
+    answer: false,
+    explanation: "Les ConfigMaps ne sont pas conçus pour stocker des informations sensibles. Les Secrets sont plus appropriés pour cela."
+  },
+  {
+    question: "Les namespaces Kubernetes peuvent être utilisés pour séparer les environnements de développement et de production.",
+    answer: true,
+    explanation: "Les namespaces permettent de séparer les environnements, en garantissant que les ressources ne se mélangent pas."
+  }
+];
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
