@@ -198,7 +198,7 @@ const Quiz = () => {
           {showAnswer && (
             <div className="mt-6 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
               <p className="font-medium mb-2">
-                {questions[currentQuestionIndex].answer ? "Bonne réponse !" : "Mauvaise réponse."}
+                {questions[currentQuestionIndex].answer ? "Mauvaise réponse." : "Bonne réponse !"}
               </p>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 {questions[currentQuestionIndex].explanation}
